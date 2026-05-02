@@ -4,14 +4,18 @@ import numpy as np
 from langchain_groq import ChatGroq
 from langchain_core.tools import Tool
 from langgraph.prebuilt import create_react_agent
-from langchain_core.messages import HumanMessage, SystemMessage
 from tensorflow.keras.preprocessing import image
 
-# Model Setup
-MODEL_PATH = 'deepfake_detector_model.tflite'
+# ✅ Model path ab direct root directory ke liye set hai (bina 'models' folder ke)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_PATH = os.path.join(BASE_DIR, 'deepfake_detector_model.tflite')
 
 def predict_deepfake(img_path):
     try:
+        # Check if model exists before running
+        if not os.path.exists(MODEL_PATH):
+            return f"Model Error: Could not find model at {MODEL_PATH}"
+            
         interpreter = tf.lite.Interpreter(model_path=MODEL_PATH)
         interpreter.allocate_tensors()
         input_details = interpreter.get_input_details()
@@ -42,7 +46,7 @@ deepfake_tool = Tool(
 
 def get_agent():
     llm = ChatGroq(
-        # ✅ Yahan model ka naam 3.1 se badal kar 3.3 kar diya gaya hai
+        # Naya Llama 3.3 model use kar rahe hain jo active hai
         model="llama-3.3-70b-versatile",
         temperature=0.3,
         groq_api_key=os.getenv("GROQ_API_KEY")
