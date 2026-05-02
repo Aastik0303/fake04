@@ -8,7 +8,7 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from tensorflow.keras.preprocessing import image
 
 # Model Setup
-MODEL_PATH = 'deepfake_detector_model.tflite'
+MODEL_PATH = 'models/deepfake_detector_model.tflite'
 
 def predict_deepfake(img_path):
     try:
@@ -42,7 +42,8 @@ deepfake_tool = Tool(
 
 def get_agent():
     llm = ChatGroq(
-        model="llama-3.1-70b-versatile",
+        # ✅ Yahan model ka naam 3.1 se badal kar 3.3 kar diya gaya hai
+        model="llama-3.3-70b-versatile",
         temperature=0.3,
         groq_api_key=os.getenv("GROQ_API_KEY")
     )
