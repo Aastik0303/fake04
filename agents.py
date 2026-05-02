@@ -8,7 +8,7 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from tensorflow.keras.preprocessing import image
 
 # Model Setup
-MODEL_PATH = 'models/deepfake_detector_model.tflite'
+MODEL_PATH = 'deepfake_detector_model.tflite'
 
 def predict_deepfake(img_path):
     try:
