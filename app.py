@@ -27,9 +27,9 @@ if uploaded_file is not None:
     
     if st.button("🔬 Analyze Image"):
         with st.spinner("Our AI agent is examining the image..."):
-            # Save temporary file
-            temp_path = os.path.join("uploads", uploaded_file.name)
-            os.makedirs("uploads", exist_ok=True)
+            # ✅ Temp file ko directly bahar hi save kar rahe hain (koi 'uploads' folder nahi banega)
+            temp_path = uploaded_file.name
+            
             with open(temp_path, "wb") as f:
                 f.write(uploaded_file.getbuffer())
             
@@ -48,7 +48,7 @@ if uploaded_file is not None:
             except Exception as e:
                 st.error(f"Analysis Failed: {e}")
             finally:
-                # Cleanup
+                # Cleanup (Image analyze hone ke baad automatically delete ho jayegi)
                 if os.path.exists(temp_path):
                     os.remove(temp_path)
 
