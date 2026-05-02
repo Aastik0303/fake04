@@ -334,7 +334,7 @@ def manual_analyze(img: Image.Image) -> dict:
     if compression_score < 18: suspicion += 25
 
     confidence = min(suspicion, 99)
-    is_fake = confidence >= 50
+    is_fake = confidence >= 70
 
     return {
         "verdict": "DEEPFAKE" if is_fake else "AUTHENTIC",
