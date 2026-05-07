@@ -31,7 +31,7 @@ def predict_deepfake(img_path):
         prediction = interpreter.get_tensor(output_details[0]['index'])
         
         confidence = float(prediction[0][0])
-        is_fake = confidence > 0.7
+        is_fake = confidence >= 0.7
         status = "Deepfake" if is_fake else "Real"
         return f"Result: {status} ({confidence*100 if is_fake else (1-confidence)*100:.1f}% confidence)"
     except Exception as e:
@@ -48,7 +48,7 @@ def get_agent():
     llm = ChatGroq(
         # Naya Llama 3.3 model use kar rahe hain jo active hai
         model="llama-3.3-70b-versatile",
-        temperature=0.3,
+        temperature=0.5,
         groq_api_key=os.getenv("GROQ_API_KEY")
     )
     return create_react_agent(llm, tools=[deepfake_tool])
